@@ -1,0 +1,47 @@
+.wrapper {
+    border: rgb(192, 192, 192) solid 1px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.postHeader {
+
+    background-color: rgb(220, 220, 220);
+    border-bottom: rgb(192, 192, 192) solid 1px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+
+.userData {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border-right: rgb(192, 192, 192) solid 1px;
+    width: 12%;
+    background-color: rgb(240, 248, 255);
+}
+
+.userData img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.userData span {
+    margin: 0;
+    text-align: center;
+}
+
+.post {
+    display: flex;
+}
+
+.text {
+    width: 88%;
+    padding: 10px;
+    text-align: left;
+}

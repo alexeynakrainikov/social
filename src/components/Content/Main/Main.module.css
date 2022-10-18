@@ -1,0 +1,12 @@
+.wrapper {
+    /*width: 80%;*/
+    padding: 30px 30px;
+}
+.sucullents {
+    display: flex;
+    gap: 10px;
+}
+.sucullents img {
+    width: 300px;
+    border-radius: 20px;
+}

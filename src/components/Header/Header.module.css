@@ -1,0 +1,14 @@
+.header {
+    background: rgba(23, 113, 101, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    padding: 0 30px;
+}
+.auth {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 1);
+}
