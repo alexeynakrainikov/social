@@ -1,6 +1,6 @@
 import styles from "../Users/Users.module.css";
 import React from "react";
-import axios from "axios";
+import {usersAPI} from "../../../api/api";
 
 
 class UsersC extends React.Component {
@@ -108,21 +108,34 @@ class UsersC extends React.Component {
     // }
 
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-            .then(response => {
+
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
                 this.props.setUsers(response.data.items)
                 this.props.setUsersCount(response.data.totalCount)
             })
     }
 
     isFollowed = (userID) => {
-        this.props.isFollowed(userID)
+        this.props.users.map((el) => {
+            if (el.id === userID) {
+                !el.followed ?
+                    usersAPI.follow(userID).then(response => {
+                            if(response.data.resultCode === 0) {
+                                this.props.isFollowed(userID)
+                            }
+                        })
+                    : usersAPI.unFollow(userID).then(response => {
+                            if(response.data.resultCode === 0) {
+                                this.props.isFollowed(userID)
+                            }
+                        })
+            }
+        })
     }
 
     setPage = (number) => {
         this.props.setPage(number)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${number}&count=${this.props.pageSize}`)
-            .then(response => {
+        usersAPI.getUsers(number, this.props.pageSize).then(response => {
                 this.props.setUsers(response.data.items)
             })
     }
