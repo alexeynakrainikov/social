@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 const SET_ACC_DATA = "SET_ACC_DATA"
 
 
@@ -17,11 +19,6 @@ const authReducer = (state = initialState, action) => {
                 isAuth: true
             };
         }
-        // case SETUSERS: {
-        //     return {
-        //         ...state, users: [...action.users]
-        //     }
-        // }
         default:
             return state
     }
@@ -30,6 +27,14 @@ const authReducer = (state = initialState, action) => {
 
 export const setACCDataActionCreator = (data) => {
     return {type: SET_ACC_DATA, data}
+}
+
+export const authMeThunkCreator = () => (dispatch) => {
+    usersAPI.authMe().then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(setACCDataActionCreator(response.data.data))
+        }
+    })
 }
 
 export default authReducer

@@ -1,143 +1,24 @@
 import styles from "../Users/Users.module.css";
 import React from "react";
-import {usersAPI} from "../../../api/api";
 
 
 class UsersC extends React.Component {
-    // setUsers = () => {
-    //     if (this.props.users.length === 0) {
-    //         this.props.setUsers([
-    //             {
-    //                 id: 1,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Alexey",
-    //                 city: "EKB",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 2,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Dima",
-    //                 city: "EKB",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 3,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Petr",
-    //                 city: "EKB",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 4,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Gena",
-    //                 city: "Moscow",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 5,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Misha",
-    //                 city: "Moscow",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 6,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Alexey",
-    //                 city: "Moscow",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 7,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Vasya",
-    //                 city: "SPB",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 8,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Oksana",
-    //                 city: "SPB",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 9,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Sveta",
-    //                 city: "SPB",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 10,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Masha",
-    //                 city: "SPB",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 11,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Alexey",
-    //                 city: "Minsk",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //             {
-    //                 id: 12,
-    //                 ava: "/assets/ava.jpg",
-    //                 name: "Petr",
-    //                 city: "Minsk",
-    //                 status: "was 1 week ago",
-    //                 followed: true
-    //             },
-    //
-    //         ])}
-    // }
 
     componentDidMount() {
-
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
-                this.props.setUsers(response.data.items)
-                this.props.setUsersCount(response.data.totalCount)
-            })
+         this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
     isFollowed = (userID) => {
         this.props.users.map((el) => {
             if (el.id === userID) {
-                !el.followed ?
-                    usersAPI.follow(userID).then(response => {
-                            if(response.data.resultCode === 0) {
-                                this.props.isFollowed(userID)
-                            }
-                        })
-                    : usersAPI.unFollow(userID).then(response => {
-                            if(response.data.resultCode === 0) {
-                                this.props.isFollowed(userID)
-                            }
-                        })
+                !el.followed ? this.props.follow(userID) : this.props.unFollow(userID)
             }
         })
     }
 
     setPage = (number) => {
         this.props.setPage(number)
-        usersAPI.getUsers(number, this.props.pageSize).then(response => {
-                this.props.setUsers(response.data.items)
-            })
+        this.props.getUsers(number, this.props.pageSize)
     }
 
     render() {

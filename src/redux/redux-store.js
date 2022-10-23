@@ -1,7 +1,8 @@
-import {combineReducers, legacy_createStore as createStore} from "redux";
+import {applyMiddleware, combineReducers, legacy_createStore as createStore} from "redux";
 import postsReducer from "./postsReducer";
 import usersReducer from "./usersReducer";
 import authReducer from "./authReducer";
+import thunk from "redux-thunk";
 
 let reducers = combineReducers({
     forum: postsReducer,
@@ -9,6 +10,6 @@ let reducers = combineReducers({
     auth: authReducer
 })
 
-let store = createStore(reducers)
+let store = createStore(reducers, applyMiddleware(thunk))
 
 export default store

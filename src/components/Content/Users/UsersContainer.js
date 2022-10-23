@@ -1,10 +1,8 @@
 
 import UsersC from "./UsersC";
 import {connect} from "react-redux";
-import {
-    followActionCreator,
-    setCurrentPageActionCreator, setTotalUsersCount,
-    setUsersActionCreator
+import {followThunkCreator, getUsersThunkCreator,
+    setCurrentPageActionCreator, unFollowThunkCreator,
 } from "../../../redux/usersReducer";
 
 let mapStateToProps = (state) => {
@@ -18,20 +16,21 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        isFollowed: (userID) => {
-            dispatch(followActionCreator(userID))
+        follow: (userID) => {
+            dispatch(followThunkCreator(userID))
         },
-        setUsers: (users) => {
-            dispatch(setUsersActionCreator(users))
+        unFollow: (userID) => {
+            dispatch(unFollowThunkCreator(userID))
         },
         setPage: (number) => {
             dispatch(setCurrentPageActionCreator(number))
         },
-        setUsersCount: (number) => {
-            dispatch(setTotalUsersCount(number))
+        getUsers: (currentPage, pageSize) => {
+             dispatch(getUsersThunkCreator(currentPage, pageSize))
+            }
         }
     }
-}
+
 
 const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersC)
 

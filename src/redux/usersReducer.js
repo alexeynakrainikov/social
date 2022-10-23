@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 const FOLLOW = "FOLLOW"
 const SETUSERS = "SETUSERS"
 const SETPAGE = "SETPAGE"
@@ -16,7 +18,7 @@ const usersReducer = (state = initialState, action) => {
         case FOLLOW: {
             return {
                 ...state,
-                 users: state.users.map((el) => {
+                users: state.users.map((el) => {
                     return el.id === action.userID ? {...el, followed: !el.followed} : el
                 })
             };
@@ -59,4 +61,34 @@ export const setCurrentPageActionCreator = (number) => {
 export const setTotalUsersCount = (number) => {
     return {type: SET_TOTAL_USERS_COUNT, number}
 }
+
+export const getUsersThunkCreator = (currentPage, pageSize) => {
+    return (dispatch) => {
+        usersAPI.getUsers(currentPage, pageSize).then(response => {
+            dispatch(setUsersActionCreator(response.data.items))
+            dispatch(setTotalUsersCount(response.data.totalCount))
+        })
+    }
+}
+
+export const followThunkCreator = (userID) => {
+    return (dispatch) => {
+        usersAPI.follow(userID).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(followActionCreator(userID))
+            }
+        })
+    }
+}
+
+export const unFollowThunkCreator = (userID) => {
+    return (dispatch) => {
+        usersAPI.unFollow(userID).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(followActionCreator(userID))
+            }
+        })
+    }
+}
+
 export default usersReducer
